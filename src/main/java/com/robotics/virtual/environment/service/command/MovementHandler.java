@@ -1,6 +1,8 @@
 package com.robotics.virtual.environment.service.command;
 
 import com.robotics.virtual.environment.exception.LocationOutOfBoundException;
+import com.robotics.virtual.environment.model.action.ActionType;
+import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.command.MovementCommand;
 import com.robotics.virtual.environment.model.state.RobotEnvironmentState;
 import com.robotics.virtual.environment.model.state.robot.Location;
@@ -14,11 +16,12 @@ import static org.apache.commons.collections4.ListUtils.union;
 public class MovementHandler implements CommandHandler<MovementCommand> {
 
     @Override
-    public RobotEnvironmentState handle(RobotEnvironmentState state, MovementCommand command) {
+    public RobotEnvironmentState handle(RobotEnvironmentState state, Command<? extends ActionType> command) {
+        final var movementCommand = (MovementCommand) command;
         final var robotState = state.robotState();
         final var newState = robotState.toBuilder()
-                .commands(union(robotState.commands(), List.of(command)))
-                .location(getLocation(state, command))
+                .commands(union(robotState.commands(), List.of(movementCommand)))
+                .location(getLocation(state, movementCommand))
                 .build();
 
         return state.toBuilder()
@@ -38,11 +41,16 @@ public class MovementHandler implements CommandHandler<MovementCommand> {
             case WEST -> currentLocation.withXCoordinate(currentLocation.xCoordinate() - steps);
         };
 
-        if (!state.environmentState().width().contains(newLocation.xCoordinate()) ||
-                !state.environmentState().height().contains(newLocation.yCoordinate())) {
+        if (!state.environmentState().getWidth().contains(newLocation.xCoordinate()) ||
+                !state.environmentState().getHeight().contains(newLocation.yCoordinate())) {
             throw new LocationOutOfBoundException(command);
         }
         return newLocation;
+    }
+
+    @Override
+    public Class<MovementCommand> getHandleCommand() {
+        return MovementCommand.class;
     }
 
 }

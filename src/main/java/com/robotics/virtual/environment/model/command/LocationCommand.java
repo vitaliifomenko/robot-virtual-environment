@@ -6,6 +6,7 @@ import com.robotics.virtual.environment.model.state.robot.Location;
 import lombok.Builder;
 
 @Builder
-public record LocationCommand(LocationType actionType, Direction direction, Location location) implements Command {
+public record LocationCommand(LocationType actionType, Direction direction,
+                              Location location) implements Command<LocationType> {
 
 }

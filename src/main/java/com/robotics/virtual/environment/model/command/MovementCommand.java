@@ -4,6 +4,6 @@ import com.robotics.virtual.environment.model.action.MovementType;
 import lombok.Builder;
 
 @Builder
-public record MovementCommand(MovementType actionType, Integer steps) implements Command {
+public record MovementCommand(MovementType actionType, Integer steps) implements Command<MovementType> {
 
 }

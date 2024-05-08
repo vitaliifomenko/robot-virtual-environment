@@ -10,9 +10,9 @@ class RobotVirtualEnvironmentApplicationTests {
 
     @Test
     void contextLoads() {
-		final var value = 1;
+        final var value = 1;
         assertThat(value)
-				.isEqualTo(1);
+                .isEqualTo(1);
     }
 
 }

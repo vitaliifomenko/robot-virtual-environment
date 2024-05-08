@@ -1,6 +1,8 @@
 package com.robotics.virtual.environment.service.command;
 
+import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.action.RotationType;
+import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.command.RotationCommand;
 import com.robotics.virtual.environment.model.state.RobotEnvironmentState;
 import com.robotics.virtual.environment.model.state.robot.Direction;
@@ -14,11 +16,12 @@ import static org.apache.commons.collections4.ListUtils.union;
 public class RotationHandler implements CommandHandler<RotationCommand> {
 
     @Override
-    public RobotEnvironmentState handle(RobotEnvironmentState state, RotationCommand command) {
+    public RobotEnvironmentState handle(RobotEnvironmentState state, Command<? extends ActionType> command) {
+        final var rotationCommand = (RotationCommand) command;
         final var robotState = state.robotState();
         final var newState = robotState.toBuilder()
-                .commands(union(robotState.commands(), List.of(command)))
-                .direction(rotationToDirection(robotState.direction(), command.actionType()))
+                .commands(union(robotState.commands(), List.of(rotationCommand)))
+                .direction(rotationToDirection(robotState.direction(), rotationCommand.actionType()))
                 .build();
 
         return state.toBuilder()
@@ -34,6 +37,11 @@ public class RotationHandler implements CommandHandler<RotationCommand> {
         };
         final var directions = Direction.values();
         return directions[((newDirection + directions.length) % directions.length)];
+    }
+
+    @Override
+    public Class<RotationCommand> getHandleCommand() {
+        return RotationCommand.class;
     }
 
 }

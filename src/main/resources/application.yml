@@ -8,10 +8,29 @@ openapi:
 
 default:
   environment:
-    width: 5
-    height: 5
+    width:
+      min: 0
+      max: 1000
+      default-value: 5
+    height:
+      min: 0
+      max: 1000
+      default-value: 5
   robot:
     location:
-      xCoordinate: 0
-      yCoordinate: 0
+      xCoordinate:
+        min: 0
+        max: 1000
+        default-value: 0
+      yCoordinate:
+        min: 0
+        max: 1000
+        default-value: 0
     direction: SOUTH
+    script:
+      commands:
+        min: 0
+        max: 1000
+      steps:
+        min: -1000
+        max: 1000
