@@ -5,7 +5,7 @@ import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.command.LocationCommand;
 import com.robotics.virtual.environment.model.environment.Environment;
-import com.robotics.virtual.environment.model.script.Script;
+import com.robotics.virtual.environment.model.script.RawScript;
 import com.robotics.virtual.environment.model.state.RobotEnvironmentState;
 import com.robotics.virtual.environment.model.state.environment.EnvironmentState;
 import com.robotics.virtual.environment.model.state.robot.Location;
@@ -35,7 +35,7 @@ public class ControlServiceImpl implements ControlService {
     }
 
     @Override
-    public RobotEnvironmentState handleRobotControl(Script script, Environment environment) {
+    public RobotEnvironmentState handleRobotControl(RawScript script, Environment environment) {
         final var commands = scriptParser.parseScript(script);
         final var state = RobotEnvironmentState.builder()
                 .environmentState(getEnvironmentState(environment))
@@ -69,12 +69,13 @@ public class ControlServiceImpl implements ControlService {
                 .filter(command -> command instanceof LocationCommand)
                 .map(command -> (LocationCommand) command);
 
+        final var location = firstCommand.map(LocationCommand::location)
+                .orElse(Location.builder()
+                        .xCoordinate(defaultApplicationProperties.robot().location().xCoordinate().getDefaultValue())
+                        .yCoordinate(defaultApplicationProperties.robot().location().yCoordinate().getDefaultValue())
+                        .build());
         return RobotState.defaultBuilder()
-                .location(firstCommand.map(LocationCommand::location)
-                        .orElse(Location.builder()
-                                .xCoordinate(defaultApplicationProperties.robot().location().xCoordinate().getDefaultValue())
-                                .yCoordinate(defaultApplicationProperties.robot().location().yCoordinate().getDefaultValue())
-                                .build()))
+                .location(location)
                 .direction(firstCommand.map(LocationCommand::direction)
                         .orElse(defaultApplicationProperties.robot().direction()))
                 .build();

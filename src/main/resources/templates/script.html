@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual environment - Script</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="container">
+    <div class="flex-lg-column">
+        <h1 class="project-name">Robot virtual environment</h1>
+        <form action="#" th:action="@{/process}" th:object="${script}" method="post">
+            <div class="flex-lg-column">
+                <div class="form-group">
+                    <label for="rawScript" class="col-form-label">Enter your script</label>
+                    <textarea type="text" th:field='*{rawScript}' class="form-control script-text" id="rawScript"
+                              placeholder="Commands"></textarea>
+                    <!--                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>-->
+                </div>
+            </div>
+            <div class="flex-column flex-lg-column start-btn-container">
+                <input type="submit" class="btn btn-primary start-btn" value="Start">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

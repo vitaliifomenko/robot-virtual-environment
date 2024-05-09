@@ -6,7 +6,7 @@ import com.robotics.virtual.environment.exception.parser.NotFoundCommandExceptio
 import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.script.RawCommand;
-import com.robotics.virtual.environment.model.script.Script;
+import com.robotics.virtual.environment.model.script.RawScript;
 import com.robotics.virtual.environment.service.script.commandparser.CommandParser;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Service
@@ -35,8 +34,8 @@ public class ScriptParserImpl implements ScriptParser {
     private final List<CommandParser<? extends ActionType>> commandParsers;
 
     @Override
-    public List<Command<? extends ActionType>> parseScript(Script script) {
-        return emptyIfNull(script.rawScript()).stream()
+    public List<Command<? extends ActionType>> parseScript(RawScript script) {
+        return Stream.of(script.rawScript().split(StringUtils.LF))
                 .filter(StringUtils::isNotBlank)
                 .map(rawCommand -> rawCommand.trim().toUpperCase())
                 .<Command<? extends ActionType>>map(this::parseCommand)

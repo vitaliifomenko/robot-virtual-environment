@@ -1,21 +1,33 @@
 spring:
+  # TODO remove after tests
+  thymeleaf: # Thymeleaf
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: file:src/main/resources/templates/
   application:
     name: robot-virtual-environment
+  # TODO remove after tests
+  web:
+    resources:
+      static-locations: file:src/main/resources/static/
+      cache:
+        period: 0
 
-openapi:
-  robot:
-    base-path: /robot
+server:
+  servlet:
+    context-path: /robot
 
 default:
   environment:
     width:
       min: 0
       max: 1000
-      default-value: 5
+      default-value: 4
     height:
       min: 0
       max: 1000
-      default-value: 5
+      default-value: 4
   robot:
     location:
       xCoordinate:
@@ -26,7 +38,7 @@ default:
         min: 0
         max: 1000
         default-value: 0
-    direction: SOUTH
+    direction: EAST
     script:
       commands:
         min: 0

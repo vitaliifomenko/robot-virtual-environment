@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="container" th:object="${state}">
+    <div class="flex-lg-column">
+        <h1 class="project-name">Robot virtual environment</h1>
+        <div class="script-result-container">
+            <div class="environment" id="environment"
+                 th:with="envWidth=${state.environmentState().getWidth().getMaximum()}, envHeight=${state.environmentState().getHeight().getMaximum()}">
+                <label for="environment" class="h6">Result of robot moving</label>
+                <div>
+                    <div class="x-coordinate-container">
+                        <div th:each="xCoordinate : ${#numbers.sequence(0, envWidth)}">
+                            <span th:text="${xCoordinate}"></span>
+                        </div>
+                    </div>
+                    <div class="y-environment">
+                        <div class="y-coordinate-container">
+                            <div th:each="xCoordinate : ${#numbers.sequence(0, envWidth)}">
+                                <span th:text="${xCoordinate}"></span>
+                            </div>
+                        </div>
+                        <div class="environment-container" th:with="
+                             robotState=${state.robotState()},
+                             robotDirection=${state.robotState().direction().ordinal() * 0.25},
+                             initialState=${robotState.initialState()},
+                             initialDirection=${initialState.direction().ordinal() * 0.25}">
+                            <div th:each="xCoordinate : ${#numbers.sequence(0, envWidth)}"
+                                 class="environment-item-row">
+                                <div th:each="yCoordinate : ${#numbers.sequence(0, envHeight)}"
+                                     class="environment-item-column">
+                                    <div th:with="
+                                    isInitialLocation=${initialState.location().xCoordinate().equals(xCoordinate) && initialState.location().yCoordinate().equals(yCoordinate)},
+                                    isRobotLocation=${robotState.location().xCoordinate().equals(xCoordinate) && robotState.location().yCoordinate().equals(yCoordinate)}">
+
+                                        <img alt="robot" th:src="@{/images/robot.png}" class="robot"
+                                             th:style="'transform: rotate(' + ${initialDirection} + 'turn)'"
+                                             th:if="${isInitialLocation && (isInitialLocation != isRobotLocation)}">
+
+                                        <img alt="robot" th:src="@{/images/robot.png}" class="robot"
+                                             th:style="'transform: rotate(' + ${robotDirection} + 'turn)'"
+                                             th:if="${isRobotLocation}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:with="commands=${state.robotState().toStringCommands()}" class="script-history-container">
+                <label for="history" class="h6">History</label>
+                <textarea type="text" th:text='${commands}' id="history" class="script-history-text"
+                          placeholder="No commands" readonly></textarea>
+            </div>
+
+        </div>
+    </div>
+    <div class="flex-column flex-lg-column back-btn-container">
+        <input type="submit" class="btn btn-outline-primary back-btn" onclick="history.go(-1)" value="Back">
+    </div>
+</div>
+</body>
+</html>

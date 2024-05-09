@@ -6,4 +6,9 @@ import lombok.Builder;
 @Builder
 public record RotationCommand(RotationType actionType) implements Command<RotationType> {
 
+    @Override
+    public String toString() {
+        return actionType.name();
+    }
+
 }

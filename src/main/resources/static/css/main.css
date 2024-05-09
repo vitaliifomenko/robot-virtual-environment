@@ -1,0 +1,116 @@
+.project-name {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.script-text {
+    min-height: 300px;
+}
+
+.start-btn-container {
+    display: flex;
+    align-items: center;
+}
+
+.start-btn {
+    min-width: 200px;
+    min-height: 50px;
+}
+
+.back-btn-container {
+    padding-top: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.back-btn {
+    min-width: 350px;
+    min-height: 50px;
+}
+
+.script-history-text {
+    min-width: 250px;
+    min-height: 510px;
+    resize: none;
+}
+
+.script-result-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 50px;
+}
+
+.script-history-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 23px;
+}
+
+.environment {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.environment-container {
+    display: grid;
+    height: max-content;
+    grid-template-columns: repeat(5, 100px);
+    border: 5px solid black;
+}
+
+.environment-item-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100%;
+}
+
+.environment-item-column {
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    min-height: 100px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    text-align: center;
+
+    &:last-child {
+        border-bottom: 1px solid black;
+    }
+}
+
+.x-coordinate-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-left: 21px;
+}
+
+.y-coordinate-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding-right: 12px;
+}
+
+.y-environment {
+    display: flex;
+}
+
+.robot-container {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.robot {
+    align-items: center;
+    width: 70%;
+    height: 70%;
+}

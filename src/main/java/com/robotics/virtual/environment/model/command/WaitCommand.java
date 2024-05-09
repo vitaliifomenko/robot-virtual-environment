@@ -6,4 +6,9 @@ import lombok.Builder;
 @Builder
 public record WaitCommand(WaitType actionType) implements Command<WaitType> {
 
+    @Override
+    public String toString() {
+        return actionType.name();
+    }
+
 }
