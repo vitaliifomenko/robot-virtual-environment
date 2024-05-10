@@ -3,7 +3,6 @@ package com.robotics.virtual.environment.controller;
 import com.robotics.virtual.environment.model.script.RawScript;
 import com.robotics.virtual.environment.service.ControlService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,7 @@ public class RobotController {
         return new ModelAndView("script", "script", new RawScript());
     }
 
-    @PostMapping(value = "/process", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/process")
     public ModelAndView action(RawScript script) {
         return new ModelAndView("virtual-environment", "state",
                 controlService.handleRobotControl(script)
