@@ -1,18 +1,6 @@
 spring:
-  # TODO remove after tests
-  thymeleaf: # Thymeleaf
-    cache: false
-    mode: HTML
-    encoding: UTF-8
-    prefix: file:src/main/resources/templates/
   application:
     name: robot-virtual-environment
-  # TODO remove after tests
-  web:
-    resources:
-      static-locations: file:src/main/resources/static/
-      cache:
-        period: 0
 
 server:
   servlet:
