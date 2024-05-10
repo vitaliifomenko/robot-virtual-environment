@@ -1,10 +1,10 @@
 package com.robotics.virtual.environment.service;
 
 import com.robotics.virtual.environment.configuration.DefaultApplicationProperties;
+import com.robotics.virtual.environment.exception.command.CommandLimitExceededException;
 import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.command.LocationCommand;
-import com.robotics.virtual.environment.model.environment.Environment;
 import com.robotics.virtual.environment.model.script.RawScript;
 import com.robotics.virtual.environment.model.state.RobotEnvironmentState;
 import com.robotics.virtual.environment.model.state.environment.EnvironmentState;
@@ -35,10 +35,13 @@ public class ControlServiceImpl implements ControlService {
     }
 
     @Override
-    public RobotEnvironmentState handleRobotControl(RawScript script, Environment environment) {
+    public RobotEnvironmentState handleRobotControl(RawScript script) {
         final var commands = scriptParser.parseScript(script);
+        if (!defaultApplicationProperties.robot().script().commands().getRange().contains(commands.size())) {
+            throw new CommandLimitExceededException();
+        }
         final var state = RobotEnvironmentState.builder()
-                .environmentState(getEnvironmentState(environment))
+                .environmentState(getEnvironmentState())
                 .robotState(getRobotState(commands))
                 .build();
         return handleRobotControl(state, commands);
@@ -56,10 +59,10 @@ public class ControlServiceImpl implements ControlService {
                 );
     }
 
-    private EnvironmentState getEnvironmentState(Environment environment) {
+    private EnvironmentState getEnvironmentState() {
         return EnvironmentState.builder()
-                .width(environment.width().orElse(defaultApplicationProperties.environment().width().getDefaultValue()))
-                .height(environment.height().orElse(defaultApplicationProperties.environment().height().getDefaultValue()))
+                .width(defaultApplicationProperties.environment().width())
+                .height(defaultApplicationProperties.environment().height())
                 .build();
     }
 

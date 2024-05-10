@@ -18,7 +18,7 @@
                     <label for="rawScript" class="col-form-label">Enter your script</label>
                     <textarea type="text" th:field='*{rawScript}' class="form-control script-text" id="rawScript"
                               placeholder="Commands"></textarea>
-                    <!--                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>-->
+                    <span th:if="${errorMessage}" th:text="${errorMessage}" class="text-danger"></span>
                 </div>
             </div>
             <div class="flex-column flex-lg-column start-btn-container">

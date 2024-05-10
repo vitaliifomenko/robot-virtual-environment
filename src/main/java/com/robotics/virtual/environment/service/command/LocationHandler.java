@@ -1,6 +1,6 @@
 package com.robotics.virtual.environment.service.command;
 
-import com.robotics.virtual.environment.exception.LocationOutOfBoundException;
+import com.robotics.virtual.environment.exception.command.LocationOutOfBoundException;
 import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.command.LocationCommand;

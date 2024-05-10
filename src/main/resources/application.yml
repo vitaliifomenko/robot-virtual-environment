@@ -20,14 +20,8 @@ server:
 
 default:
   environment:
-    width:
-      min: 0
-      max: 1000
-      default-value: 4
-    height:
-      min: 0
-      max: 1000
-      default-value: 4
+    width: 4
+    height: 4
   robot:
     location:
       xCoordinate:
@@ -41,8 +35,7 @@ default:
     direction: EAST
     script:
       commands:
-        min: 0
         max: 1000
       steps:
-        min: -1000
-        max: 1000
+        min: -999
+        max: 999

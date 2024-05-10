@@ -1,6 +1,6 @@
 package com.robotics.virtual.environment.service.command;
 
-import com.robotics.virtual.environment.exception.LocationOutOfBoundException;
+import com.robotics.virtual.environment.exception.command.MoveCommandOutOfBoundException;
 import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.command.MovementCommand;
@@ -43,7 +43,7 @@ public class MovementHandler implements CommandHandler<MovementCommand> {
 
         if (!state.environmentState().getWidth().contains(newLocation.xCoordinate()) ||
                 !state.environmentState().getHeight().contains(newLocation.yCoordinate())) {
-            throw new LocationOutOfBoundException(command);
+            throw new MoveCommandOutOfBoundException(command);
         }
         return newLocation;
     }

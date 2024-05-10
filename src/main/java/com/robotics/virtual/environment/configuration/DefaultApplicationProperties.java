@@ -7,11 +7,14 @@ import org.apache.commons.lang3.IntegerRange;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
+
 @Builder
 @ConfigurationProperties("default")
 public record DefaultApplicationProperties(EnvironmentConfiguration environment, RobotConfiguration robot) {
 
-    public record EnvironmentConfiguration(Size width, Size height) {
+    public record EnvironmentConfiguration(Integer width, Integer height) {
 
     }
 
@@ -35,7 +38,7 @@ public record DefaultApplicationProperties(EnvironmentConfiguration environment,
 
         @ConstructorBinding
         public Size(Integer min, Integer max, Integer defaultValue) {
-            this.range = IntegerRange.of(min, max);
+            this.range = IntegerRange.of(defaultIfNull(min, INTEGER_ZERO), max);
             this.defaultValue = defaultValue;
         }
 

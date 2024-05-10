@@ -17,6 +17,8 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+
 @AllArgsConstructor
 @Service
 public class ScriptParserImpl implements ScriptParser {
@@ -35,7 +37,7 @@ public class ScriptParserImpl implements ScriptParser {
 
     @Override
     public List<Command<? extends ActionType>> parseScript(RawScript script) {
-        return Stream.of(script.rawScript().split(StringUtils.LF))
+        return Stream.of(defaultIfBlank(script.rawScript(), StringUtils.EMPTY).split(StringUtils.LF))
                 .filter(StringUtils::isNotBlank)
                 .map(rawCommand -> rawCommand.trim().toUpperCase())
                 .<Command<? extends ActionType>>map(this::parseCommand)
