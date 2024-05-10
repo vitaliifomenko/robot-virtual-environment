@@ -32,7 +32,6 @@ dependencies {
     implementation "org.apache.commons:commons-collections4:${collectionsVersion}"
     implementation "org.apache.commons:commons-lang3:${commonLangVersion}"
 
-//	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
