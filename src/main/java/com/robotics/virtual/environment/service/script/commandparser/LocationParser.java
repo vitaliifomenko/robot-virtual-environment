@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.robotics.virtual.environment.utils.ValidationUtils.toInteger;
+import static com.robotics.virtual.environment.utils.ValidationUtils.validateAndConvert;
 
 @AllArgsConstructor
 @Service
@@ -28,10 +28,10 @@ public class LocationParser implements CommandParser<LocationType> {
         final var locationConfiguration = defaultApplicationProperties.robot().location();
 
         final var xCoordinate = Optional.ofNullable(rawCommand.xCoordinate())
-                .flatMap(coordinate -> toInteger(coordinate, locationConfiguration.xCoordinate().getRange()))
+                .flatMap(coordinate -> validateAndConvert(coordinate, locationConfiguration.xCoordinate().getRange()))
                 .orElseThrow(() -> new InvalidCommandException(rawCommand));
         final var yCoordinate = Optional.ofNullable(rawCommand.yCoordinate())
-                .flatMap(coordinate -> toInteger(coordinate, locationConfiguration.yCoordinate().getRange()))
+                .flatMap(coordinate -> validateAndConvert(coordinate, locationConfiguration.yCoordinate().getRange()))
                 .orElseThrow(() -> new InvalidCommandException(rawCommand));
 
         return LocationCommand.builder()

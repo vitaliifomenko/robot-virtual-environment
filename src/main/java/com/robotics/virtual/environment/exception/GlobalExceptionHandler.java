@@ -33,14 +33,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LocationOutOfBoundException.class)
     public ModelAndView handleLocationOutOfBoundException(LocationOutOfBoundException ex) {
         return handleException(ex,
-                String.format("Unable to execute command: %s. The location will be outside of bounds", ex.getCommand())
+                String.format("Unable to execute command: %s. The location will be out of bounds", ex.getCommand())
         );
     }
 
     @ExceptionHandler(MoveCommandOutOfBoundException.class)
     public ModelAndView handleMoveCommandOutOfBoundException(MoveCommandOutOfBoundException ex) {
         return handleException(ex,
-                String.format("Unable to execute command: %s. The location will be outside of bounds", ex.getCommand())
+                String.format("Unable to execute command: %s. The location will be out of bounds", ex.getCommand())
         );
     }
 

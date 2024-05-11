@@ -24,8 +24,8 @@
                     </div>
                     <div class="y-environment">
                         <div class="y-coordinate-container">
-                            <div th:each="xCoordinate : ${#numbers.sequence(0, envWidth)}">
-                                <span th:text="${xCoordinate}"></span>
+                            <div th:each="yCoordinate : ${#numbers.sequence(0, envHeight)}">
+                                <span th:text="${yCoordinate}"></span>
                             </div>
                         </div>
                         <div class="environment-container" th:with="
@@ -33,8 +33,7 @@
                              robotDirection=${state.robotState().direction().ordinal() * 0.25},
                              initialState=${robotState.initialState()},
                              initialDirection=${initialState.direction().ordinal() * 0.25}">
-                            <div th:each="xCoordinate : ${#numbers.sequence(0, envWidth)}"
-                                 class="environment-item-row">
+                            <div th:each="xCoordinate : ${#numbers.sequence(0, envWidth)}" class="environment-item-row">
                                 <div th:each="yCoordinate : ${#numbers.sequence(0, envHeight)}"
                                      class="environment-item-column">
                                     <div th:with="
@@ -61,9 +60,10 @@
                 </div>
             </div>
 
-            <div th:with="commands=${state.robotState().toStringCommands()}" class="script-history-container">
+            <div class="script-history-container">
                 <label for="history" class="h6">History</label>
-                <textarea type="text" th:text='${commands}' id="history" class="script-history-text"
+                <textarea type="text" th:text='${state.robotState().toStringCommands()}' id="history"
+                          class="script-history-text"
                           placeholder="No commands" readonly></textarea>
             </div>
 

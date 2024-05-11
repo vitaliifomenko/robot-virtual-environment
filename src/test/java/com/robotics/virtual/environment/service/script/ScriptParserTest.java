@@ -6,6 +6,7 @@ import com.robotics.virtual.environment.exception.parser.NotFoundCommandExceptio
 import com.robotics.virtual.environment.model.action.ActionType;
 import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.script.RawScript;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.robotics.virtual.environment.TestDataFactory.getCommands;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class ScriptParserTest {
@@ -69,7 +70,7 @@ public class ScriptParserTest {
     @ParameterizedTest
     @MethodSource("scripts")
     public void parseScriptTest(String script, List<Command<? extends ActionType>> expectedCommands) {
-        assertThat(scriptParser.parseScript(new RawScript(script)))
+        Assertions.assertThat(scriptParser.parseScript(new RawScript(script)))
                 .isEqualTo(expectedCommands);
     }
 
@@ -77,7 +78,7 @@ public class ScriptParserTest {
     @ParameterizedTest
     @MethodSource("invalidScripts")
     public void parseScriptThrowErrorTest(String script, Class<? extends CommandParseException> expectedError) {
-        org.junit.jupiter.api.Assertions.assertThrows(expectedError,
+        assertThrows(expectedError,
                 () -> scriptParser.parseScript(new RawScript(script)));
     }
 

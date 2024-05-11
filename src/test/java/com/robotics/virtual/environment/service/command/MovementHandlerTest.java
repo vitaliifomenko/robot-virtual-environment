@@ -18,7 +18,7 @@ public class MovementHandlerTest {
     private final MovementHandler movementHandler = new MovementHandler();
 
     @Test
-    public void handleLocationCommandTest() {
+    public void handleMovementCommandTest() {
         final var command = MovementCommand.builder()
                 .actionType(MovementType.FORWARD)
                 .steps(1)
@@ -40,7 +40,7 @@ public class MovementHandlerTest {
     }
 
     @Test
-    public void handleLocationCommandThrowErrorTest() {
+    public void handleMovementCommandThrowErrorTest() {
         final var command = MovementCommand.builder()
                 .actionType(MovementType.FORWARD)
                 .steps(10)

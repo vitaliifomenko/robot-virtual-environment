@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.robotics.virtual.environment.utils.ValidationUtils.toInteger;
+import static com.robotics.virtual.environment.utils.ValidationUtils.validateAndConvert;
 
 @AllArgsConstructor
 @Service
@@ -24,7 +24,7 @@ public class MovementParser implements CommandParser<MovementType> {
     public Command<MovementType> parse(RawCommand rawCommand) {
         final var stepsRange = defaultApplicationProperties.robot().script().steps().getRange();
         final var steps = Optional.ofNullable(rawCommand.xCoordinate())
-                .flatMap(step -> toInteger(step, stepsRange))
+                .flatMap(step -> validateAndConvert(step, stepsRange))
                 .orElseThrow(() -> new InvalidCommandException(rawCommand));
 
         return MovementCommand.builder()

@@ -1,34 +1,45 @@
 package com.robotics.virtual.environment.service;
 
-import com.robotics.virtual.environment.exception.parser.CommandParseException;
-import com.robotics.virtual.environment.exception.parser.InvalidCommandException;
-import com.robotics.virtual.environment.model.action.ActionType;
-import com.robotics.virtual.environment.model.command.Command;
 import com.robotics.virtual.environment.model.script.RawScript;
-import com.robotics.virtual.environment.service.script.ScriptParser;
+import com.robotics.virtual.environment.model.state.RobotEnvironmentState;
+import com.robotics.virtual.environment.model.state.environment.EnvironmentState;
+import com.robotics.virtual.environment.model.state.robot.Direction;
+import com.robotics.virtual.environment.model.state.robot.Location;
+import com.robotics.virtual.environment.model.state.robot.RobotState;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-import static com.robotics.virtual.environment.TestDataFactory.getCommands;
+import static com.robotics.virtual.environment.TestDataFactory.getRobotEnvironmentState;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class ControlServiceTest {
 
     @Autowired
-    private ScriptParser scriptParser;
+    private ControlService controlService;
 
     private static Stream<Arguments> scripts() {
         return Stream.of(
                 Arguments.of(
                         "",
-                        List.of()
+                        RobotEnvironmentState.builder()
+                                .environmentState(EnvironmentState.builder()
+                                        .width(4)
+                                        .height(4)
+                                        .build()
+                                ).robotState(RobotState.defaultBuilder()
+                                        .location(Location.builder()
+                                                .xCoordinate(0)
+                                                .yCoordinate(0)
+                                                .build())
+                                        .direction(Direction.EAST)
+                                        .build()
+                                ).build()
                 ),
                 Arguments.of(
                         """
@@ -40,45 +51,16 @@ public class ControlServiceTest {
                                 RIGHT
                                 FORWARD 2
                                 """,
-                        getCommands()
-                )
-        );
-    }
-
-    private static Stream<Arguments> invalidScripts() {
-        return Stream.of(
-                Arguments.of(
-                        "POS",
-                        InvalidCommandException.class
-                ),
-                Arguments.of(
-                        "FORW 1",
-                        InvalidCommandException.class
-                ),
-                Arguments.of(
-                        "1 2 3 4",
-                        InvalidCommandException.class
-                ),
-                Arguments.of(
-                        "FORWARD",
-                        InvalidCommandException.class
+                        getRobotEnvironmentState()
                 )
         );
     }
 
     @ParameterizedTest
     @MethodSource("scripts")
-    public void parseScriptTest(String script, List<Command<? extends ActionType>> expectedCommands) {
-        assertThat(scriptParser.parseScript(new RawScript(script)))
-                .isEqualTo(expectedCommands);
-    }
-
-
-    @ParameterizedTest
-    @MethodSource("invalidScripts")
-    public void parseScriptThrowErrorTest(String script, Class<? extends CommandParseException> expectedError) {
-        org.junit.jupiter.api.Assertions.assertThrows(expectedError,
-                () -> scriptParser.parseScript(new RawScript(script)));
+    public void handleRobotControlTest(String script, RobotEnvironmentState expectedState) {
+        assertThat(controlService.handleRobotControl(new RawScript(script)))
+                .isEqualTo(expectedState);
     }
 
 }

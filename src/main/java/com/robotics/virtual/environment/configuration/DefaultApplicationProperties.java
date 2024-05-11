@@ -36,6 +36,7 @@ public record DefaultApplicationProperties(EnvironmentConfiguration environment,
         private final IntegerRange range;
         private final Integer defaultValue;
 
+        @Builder
         @ConstructorBinding
         public Size(Integer min, Integer max, Integer defaultValue) {
             this.range = IntegerRange.of(defaultIfNull(min, INTEGER_ZERO), max);
