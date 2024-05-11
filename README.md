@@ -1,5 +1,7 @@
 # robot-virtual-environment
 
+The virtual environment for a robot where it can be controlled by a provided script.
+
 ## Requirements
 
 Java 21
@@ -13,6 +15,7 @@ The application can be run from the command line or IDE.
 ```bash
 ./gradlew bootRun
 ```
+
 ### Windows
 
 ```bash
@@ -23,4 +26,16 @@ gradlew.bat bootRun
 
 ```bash
 http://localhost:8080/robot
+```
+
+### Script example
+
+```bash
+POSITION 1 3 EAST
+FORWARD 3
+WAIT
+TURNAROUND
+FORWARD 1
+RIGHT
+FORWARD 2
 ```
